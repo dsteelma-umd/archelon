@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# An datatype entity in a vocabulary.
 class Datatype < ApplicationRecord
   validates :identifier,
             presence: true,
