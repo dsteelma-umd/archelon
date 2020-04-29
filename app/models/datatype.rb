@@ -1,7 +1,7 @@
 class Datatype < ApplicationRecord
   validates :identifier,
             presence: true,
-            format: { with: /\A[A-Z][a-zA-Z0-9_-]*\z/ },
+            format: { with: /\A[a-zA-Z0-9][a-zA-Z0-9_-]*\z/ },
             uniqueness: {
               scope: :vocabulary,
               message: lambda do |object, data|
