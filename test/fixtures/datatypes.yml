@@ -3,9 +3,9 @@
 one:
   identifier: MyString
   description: MyText
-  vocabulary: one
+  vocabulary: vocab_one
 
 two:
   identifier: MyString
   description: MyText
-  vocabulary: two
+  vocabulary: vocab_two
