@@ -60,3 +60,17 @@ let values = [{value: 'http://example.com/vocab#foo'}, {value: 'http://example.c
    defaultValue={{ value: 'http://example.com/vocab#foo' }}
 />
 ```
+
+### Repeatable URIRef
+
+```js
+import URIRef from './URIRef';
+
+let values = [{value: { '@id': 'http://example.com/vocab#foo'} }];
+
+<Repeatable name="test"
+   componentType="URIRef"
+   values={values}
+   defaultValue={{ value: { '@id': '' }}}
+/>
+```
