@@ -122,6 +122,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'rsolr'
 
+gem "sparql", "~> 3.1"
 gem "sparql-client", "~> 3.0"
 
 gem 'stomp'

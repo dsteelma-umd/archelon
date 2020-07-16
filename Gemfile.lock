@@ -267,8 +267,12 @@ GEM
     rdf (3.1.1)
       hamster (~> 3.0)
       link_header (~> 0.0, >= 0.0.8)
+    rdf-aggregate-repo (3.1.0)
+      rdf (~> 3.1)
     rdf-turtle (3.1.0)
       ebnf (~> 1.2)
+      rdf (~> 3.1)
+    rdf-xsd (3.1.0)
       rdf (~> 3.1)
     rdoc (4.3.0)
     react-rails (2.6.1)
@@ -342,6 +346,14 @@ GEM
       retriable
       ruby-progressbar
       rubyzip
+    sparql (3.1.0)
+      builder (~> 3.2)
+      ebnf (~> 1.2)
+      rdf (~> 3.1)
+      rdf-aggregate-repo (~> 3.1)
+      rdf-xsd (~> 3.1)
+      sparql-client (~> 3.1)
+      sxp (~> 1.1)
     sparql-client (3.1.0)
       net-http-persistent (~> 3.1)
       rdf (~> 3.1)
@@ -448,6 +460,7 @@ DEPENDENCIES
   simplecov
   simplecov-rcov
   solr_wrapper (>= 0.3)
+  sparql (~> 3.1)
   sparql-client (~> 3.0)
   spring
   spring-watcher-listen (~> 2.0.0)

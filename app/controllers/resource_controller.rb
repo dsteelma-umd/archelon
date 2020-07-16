@@ -40,7 +40,7 @@ class ResourceController < ApplicationController
 
     @sparql_update = "DELETE {\n#{delete_statements.join} } INSERT {\n#{insert_statements.join} } WHERE {}"
 
-    response = send_to_plastron(@id, @sparql_update)
+    response = send_to_plastron(@id+"_FORCE_FAILURE", @sparql_update)
 
     success = response[:status] == 'Done'
 
@@ -51,7 +51,7 @@ class ResourceController < ApplicationController
       flash[:error] = t('resource_update_failed')
       @errors = response[:errors]
 
-      @items = update_items(@id, delete_statements, insert_statements)
+      @items = update_items(@id, delete_statements, insert_statements, @sparql_update)
       @content_model = content_model_from_rdf_type(@items[@id]['@type'])
       render :edit
     end
@@ -60,9 +60,37 @@ class ResourceController < ApplicationController
   private
 
     # Updates the given items, based on the given delete and insert statements
-    def update_items(id, _delete_statements, _insert_statements)
-      resource_model = resource_model(id)
-      items = resource_model[:items]
+    def update_items(id, delete_statements, insert_statements, sparql_update)
+      resources_json_ld = resources(id)
+      graph = RDF::Graph.new << JSON::LD::API.toRdf(resources_json_ld)
+
+      sparql_update = "DELETE DATA {\n#{delete_statements.join} }; INSERT DATA {\n#{insert_statements.join} }"
+
+      q = SPARQL.parse(sparql_update, update: true)
+      updated_graph = q.execute(graph)
+
+
+      json_ld = JSON::LD::API::fromRdf(updated_graph)
+
+      resources = JSON::LD::API.expand(json_ld)
+
+      items = Hash[resources.map do |resource|
+        uri = resource.delete('@id')
+        [uri, resource]
+      end]
+
+      # delete_statements.each do |delete|
+      #   q = SPARQL.parse(delete)
+      #   graph = q.execute(graph)
+      # end
+
+      # insert_statements.each do |insert|
+      #   q = SPARQL.parse(inset)
+      #   graph = q.execute(graph)
+      # end
+
+#      items = resource_model[:items]
+
 
       # TODO: Do someting here that takes the items, updates them based on
       # the delete and insert statements and returns them
