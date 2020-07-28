@@ -29,3 +29,21 @@
     <%= link_to 'Cancel', solr_document_path(id: @id), class: 'btn btn-danger form-control' %>
   </div>
 <% end %>
+
+<hr>
+
+<h2>Other form</h2>
+<%
+  content_model = @resource[:content_model]
+  items = @resource[:items]
+%>
+
+<% required_components = define_react_components(content_model[:required], items, @id) %>
+<% recommended_components = define_react_components(content_model[:recommended], items, @id) %>
+<% optional_components = define_react_components(content_model[:optional], items, @id) %>
+
+<%= react_component("Form", {
+  required_components: required_components,
+  recommended_components: recommended_components,
+  optional_components: optional_components,
+  cancel_url: solr_document_path(id: @id) }) %>
