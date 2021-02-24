@@ -10,6 +10,7 @@
     received: function(data) {
       // Trigger a page reload
       return location.reload();
+//      return location.reload();
     },
     followExportJobs: function() {
       // Calls "follow" or "unfollow" on ExportJobsChannel, based on whether
