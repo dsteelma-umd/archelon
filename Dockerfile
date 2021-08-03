@@ -11,8 +11,14 @@ WORKDIR /opt/archelon
 # Install npm, to enable "yarn" to be installed
 # And netcat, for checking if the database is available
 RUN apt-get update && \
-    apt-get install -y npm netcat-openbsd && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y netcat-openbsd && \
+    apt-get install -y build-essential && \
+    apt-get install -y git && \
+    apt-get install -y curl && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs && \
+    apt update && \
+    apt-get clean
 
 COPY ./Gemfile ./Gemfile.lock /opt/archelon/
 RUN bundle install --deployment
