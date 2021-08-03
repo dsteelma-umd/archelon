@@ -57,6 +57,16 @@ module.exports = function(api) {
         }
       ],
       [
+        '@babel/plugin-proposal-private-methods',
+        {
+          // Fix Babel compiler warning by setting "loose" to true,
+          // as it must match the "loose" value in
+          // "@babel/plugin-proposal-class-properties"
+          // See https://babeljs.io/docs/en/babel-plugin-proposal-private-methods#loose
+          loose: true
+        }
+      ],
+      [
         '@babel/plugin-proposal-object-rest-spread',
         {
           useBuiltIns: true
