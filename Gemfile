@@ -133,3 +133,5 @@ gem 'cancancan'
 gem 'webpacker'
 gem 'react-rails'
 gem 'faraday', '~> 1.0'
+gem 'delayed_job_active_record', '~> 4.1'
+
