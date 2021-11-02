@@ -11,7 +11,9 @@ WORKDIR /opt/archelon
 # Install npm, to enable "yarn" to be installed
 # And netcat, for checking if the database is available
 RUN apt-get update && \
-    apt-get install -y npm netcat-openbsd && \
+    apt-get install -y npm \
+                       netcat-openbsd \
+                       cron && \
     rm -rf /var/lib/apt/lists/*
 
 COPY ./Gemfile ./Gemfile.lock /opt/archelon/
