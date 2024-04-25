@@ -96,5 +96,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   get '/ping' => 'ping#verify'
 
+  get '/htmx' => 'htmx_demo#index'
+  get '/htmx/replace' => 'htmx_demo#replace'
+
   mount ActionCable.server, at: '/cable'
 end

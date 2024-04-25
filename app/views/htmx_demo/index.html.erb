@@ -1,0 +1,11 @@
+<p> Hello World </p>
+
+
+<button class="btn btn-danger"
+   hx-get="/htmx/replace"
+   hx-trigger="click"
+   hx-swap="outerHTML"
+   hx-vals='{"authenticity_token": "<%= session[:_csrf_token] %>"}'
+>
+   Click Me!
+</button>
