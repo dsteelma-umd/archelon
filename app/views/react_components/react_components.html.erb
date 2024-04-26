@@ -55,12 +55,10 @@
 
   <div class="form-group">
     <div>
-      <input type="hidden" name="value_type" value="http://id.loc.gov/datatypes/edtf">
-      <input type="hidden" name="subject" value="typed_literal">
-      <input type="hidden" name="predicate" value="title">
-      <input type="hidden" name="original_value" value="2020-06-23">
     </div>
-    <input name="new_value" title="http://id.loc.gov/datatypes/edtf" size="40" value="2020-06-23" hx-post="/htmx/replace" hx-target="previous" hx-trigger="keyup">
+    <input title="http://id.loc.gov/datatypes/edtf" size="40" value="2020-06-23" hx-post="/htmx/replace" hx-target="previous" hx-trigger="keyup"
+    hx-vals='js:{new_value: event.target.value, "value_type": "http://id.loc.gov/datatypes/edtf", "subject": "typed_literal", "predicate": "title", "original_value": "2020-06-23"}'
+    >
   </div>
 
   <h2>ControlledURIRef</h2>
