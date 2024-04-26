@@ -8,14 +8,12 @@ class HtmxDemoController < ApplicationController
     new_value = params['new_value']
     value_type = params['value_type']
 
-    render html: """
-    <input type='hidden' name='value_type' value='#{value_type}'>
-    <input type='hidden' name='subject' value='#{subject}'>
-    <input type='hidden' name='predicate' value='#{predicate}'>
-    <input type='hidden' name='original_value' value='#{original_value}'>
+    original_value_and_type = value_type == "" ?  "&quot;#{original_value}&quot;": "&quot;#{original_value}&quot;^^<#{value_type}>"
+    new_value_and_type = value_type == "" ?  "&quot;#{new_value}&quot;": "&quot;#{new_value}&quot;^^<#{value_type}>"
 
-    <input type='hidden' name='delete[]' value='<#{subject}> <#{predicate}> &quot;#{original_value}&quot;^^<#{value_type}> .'>
-    <input type='hidden' name='insert[]' value='<#{subject}> <#{predicate}> &quot;#{new_value}&quot;^^<#{value_type}> .'>
+    render html: """
+    <input type='hidden' name='delete[]' value='<#{subject}> <#{predicate}> #{original_value_and_type} .\r\n'>
+    <input type='hidden' name='insert[]' value='<#{subject}> <#{predicate}> #{new_value_and_type} .\r\n'>
     """.html_safe
   end
  end
