@@ -54,11 +54,14 @@
   <div>Hover the mouse over the textbox to display a tooltip with the datatype.</div>
 
   <div class="form-group">
-    <div>
-    </div>
-    <input title="http://id.loc.gov/datatypes/edtf" size="40" value="2020-06-23" hx-post="/htmx/replace" hx-target="previous" hx-trigger="keyup"
-    hx-vals='js:{new_value: event.target.value, "value_type": "http://id.loc.gov/datatypes/edtf", "subject": "typed_literal", "predicate": "title", "original_value": "2020-06-23"}'
-    >
+    <%= render htmx_partial(:TypedLiteral), args: {
+          subjectURI: 'typed_literal',
+          predicateURI: 'title',
+          value: {
+            '@value': "2020-06-23",
+            '@type': "http://id.loc.gov/datatypes/edtf"
+          }
+        } %>
   </div>
 
   <h2>ControlledURIRef</h2>
