@@ -2,8 +2,8 @@
   <% define_react_components(fields, items, uri).each do |label, type, args| %>
     <dt><%= label %>:</dt>
     <dd>
-      <% if substitute_htmx(args) %>
-        <%= render htmx_partial(args[:componentType]), type: type, args: args %>
+      <% if substitute_htmx(type, args) %>
+        <%= htmx_component(type, args) %>
       <% else %>
         <%= react_component(type, **args) %>
       <% end %>
