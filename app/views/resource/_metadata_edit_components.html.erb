@@ -1,26 +1,12 @@
 <dl class="dl-horizontal dl-invert">
   <% define_react_components(fields, items, uri).each do |label, type, args| %>
-    <% if args[:componentType] == :TypedLiteral %>
-      <% original_value = ""
-         value_type = ""
-         if args[:values] != nil && args[:values].length() > 0
-           original_value =  args[:values][0]["@value"] || ''
-           value_type = args[:values][0]["@type"] || ''
-         end
-      %>
-      <dt><%= label %>:</dt>
-      <dd>
-      <div>
-      </div>
-      <input title="<%= args[:subjectURI] %>" size="40" value="<%= original_value %>"
-             hx-post="/htmx/replace" hx-target="previous" hx-trigger="keyup"
-             hx-vals='js:{new_value: event.target.value, "value_type": "<%= value_type %>", "subject": "<%= args[:subjectURI] %>", "predicate": "<%= args[:predicateURI] %>", "original_value": "<%= original_value %>"}'>
-      </dd>
-    <% else %>
-      <dt><%= label %>:</dt>
-      <dd>
+    <dt><%= label %>:</dt>
+    <dd>
+      <% if substitute_htmx(args) %>
+        <%= render htmx_partial(args[:componentType]), type: type, args: args %>
+      <% else %>
         <%= react_component(type, **args) %>
-      </dd>
-    <% end %>
+      <% end %>
+    </dd>
   <% end %>
 </dl>
