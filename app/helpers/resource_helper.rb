@@ -15,6 +15,27 @@ module ResourceHelper
     item_values_for_predicate.select { |value| value['@type'] == field_data_type }
   end
 
+  # Returns true if HTMX should be subsituted for the the given React
+  # component, false otherwise.
+  def substitute_htmx(args)
+    is_repeatable = (args[:maxValues] != 1)
+    return false if is_repeatable
+
+    component_type = args[:componentType]
+    !htmx_partial(component_type).nil?
+  end
+
+  # Returns the HTMX partial for the given React component type, or nil if
+  # no HTMX partial exists for that React component type
+  def htmx_partial(component_type)
+    case component_type
+    when :TypedLiteral
+      'resource/htmx/typed_literal'
+    else
+      nil
+    end
+  end
+
   def define_react_components(fields, items, uri) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     item = items[uri]
     fields.map do |field|
