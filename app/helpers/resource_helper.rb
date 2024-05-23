@@ -18,18 +18,16 @@ module ResourceHelper
   # Returns true if HTMX should be subsituted for the the given React
   # component, false otherwise.
   def substitute_htmx(type, args)
-    is_repeatable = (args[:maxValues] != 1)
-    return false if is_repeatable
-
     component_type = args[:componentType]
     !htmx_partial(component_type).nil?
   end
 
   def htmx_component(type, args)
-    is_repeatable = (args[:maxValues] != 1)
-    if !is_repeatable
-      template = htmx_partial(args[:componentType])
+    is_repeatable = (type == :Repeatable) && args[:maxValues].nil? || (args[:maxValues].present? && (args[:maxValues] > 1))
 
+    if is_repeatable
+      repeatable_htmx_component(args)
+    else
       # When this method is called from
       # app/views/resource/_metadata_edit_components.html.erb, the
       # "args" hash contains a "values" key that holds an array of the values
@@ -44,10 +42,27 @@ module ResourceHelper
       component_args = args.deep_dup.with_indifferent_access
       component_args.delete(:values)
       component_args[:value] = args[:values][0]
-      render partial: template, locals: { args: component_args }, layout: false
+
+      single_htmx_component(component_args)
     end
   end
 
+  def single_htmx_component(args)
+    template = htmx_partial(args[:componentType])
+    render partial: template, locals: { args: args }, layout: false
+  end
+
+  def repeatable_htmx_component(args)
+    args_array = []
+    for value in args[:values]
+      component_args = args.deep_dup.with_indifferent_access
+      component_args.delete(:values)
+      component_args[:value] = value
+      args_array << component_args
+      # single_htmx_component(component_args)
+    end
+    render partial: 'resource/htmx/repeatable.html.erb', locals: { type: args[:componentType], args_array: args_array }, layout: false
+  end
 
   # Returns the HTMX partial for the given React component type, or nil if
   # no HTMX partial exists for that React component type
