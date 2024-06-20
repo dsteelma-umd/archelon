@@ -98,6 +98,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   get '/htmx' => 'htmx_demo#index'
   post '/htmx/replace' => 'htmx_demo#replace'
+  post '/htmx/repeatable/remove/:repeatable_id/:index' => 'htmx_demo#repeatable_remove', as: 'htmx_repeatable_remove'
 
   mount ActionCable.server, at: '/cable'
 end

@@ -48,20 +48,29 @@ module ResourceHelper
   end
 
   def single_htmx_component(args)
-    template = htmx_partial(args[:componentType])
+    template = htmx_partial(args[:componentType].to_sym)
     render partial: template, locals: { args: args }, layout: false
   end
 
   def repeatable_htmx_component(args)
+    @repeatable_id = SecureRandom.uuid
     args_array = []
     for value in args[:values]
       component_args = args.deep_dup.with_indifferent_access
       component_args.delete(:values)
       component_args[:value] = value
       args_array << component_args
-      # single_htmx_component(component_args)
     end
-    render partial: 'resource/htmx/repeatable.html.erb', locals: { type: args[:componentType], args_array: args_array }, layout: false
+
+    original_args = { (@repeatable_id + "-original-values") => args }.to_json
+    render partial: 'resource/htmx/repeatable.html.erb', locals: {
+        original_args: original_args,
+        type: args[:componentType],
+        args_array: args_array,
+        deleted_values: [],
+        subject: args[:subjectURI],
+        predicate: args[:predicateURI],
+      }, layout: false
   end
 
   # Returns the HTMX partial for the given React component type, or nil if

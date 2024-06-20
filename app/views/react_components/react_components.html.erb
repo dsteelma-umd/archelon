@@ -179,6 +179,32 @@
         ) %>
   </div>
 
+  <h2>Repeatable Typed Literal - HTMX</h2>
+
+  <div>Hover the mouse over the textbox to display a tooltip with the datatype.</div>
+
+  <div class="form-group">
+    <%= repeatable_htmx_component( {
+        componentType: :TypedLiteral,
+        subjectURI: 'repeatable_typed_literal',
+        predicateURI: 'title',
+        values: [{
+              '@value': "2020-06-23",
+              '@type': "http://id.loc.gov/datatypes/edtf"
+            },
+            {
+              '@value': "1856-03-06",
+              '@type': "http://id.loc.gov/datatypes/edtf"
+            },
+            {
+              '@value': "1941-12-07",
+              '@type': "http://id.loc.gov/datatypes/edtf"
+            },
+          ]
+          }
+        ) %>
+  </div>
+
   <h3>Repeatable ControlledURIRef</h3>
 
   <% sample_vocabularies.each do |vocab| %>

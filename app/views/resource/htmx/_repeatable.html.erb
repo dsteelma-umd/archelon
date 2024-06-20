@@ -1,3 +1,36 @@
-<% for args in args_array %>
-  <%= single_htmx_component(args) %><span>BUTTONS TODO</span>
-<% end %>
+<div class="repeatable" id="<%= @repeatable_id %>" hx-vals=<%= original_args %>>
+  <% num_entries = args_array.size() %>
+  <%
+    deleted_values.each do |deleted_value|
+  %>
+    <input type="hidden" name="delete[]" value="<<%= subject %>> <<%= predicate %>> <%= deleted_value.html_safe %> .
+    ">
+  <% end %>
+  <% args_array.each_with_index do |args, index| %>
+    <% original_value = ""
+      value_type = ""
+      if args[:value] != nil
+        original_value =  args[:value][:@value] || ''
+        value_type = args[:value][:@type] || ''
+      end
+    %>
+    <div class="repeated_component">
+      <%= single_htmx_component(args) %>
+
+      <% if num_entries > 1 %>
+        <button hx-post="<%= htmx_repeatable_remove_path(repeatable_id: @repeatable_id, index: index) %>"
+                hx-vals=
+                '{ "<%= @repeatable_id %>": {"value_type": "<%= value_type %>", "subject": "<%= args[:subjectURI] %>", "predicate": "<%= args[:predicateURI] %>", "original_value": "<%= original_value %>"} }'
+                hx-params="authenticity_token,<%= @repeatable_id %>, <%= @repeatable_id %>-original-values"
+                hx-swap="outerHTML"
+                hx-target="closest .repeatable"
+        >
+        -
+        </button>
+      <% end %>
+      <% if index == (num_entries - 1) %>
+        <span>+</span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
