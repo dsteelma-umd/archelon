@@ -1,0 +1,30 @@
+<%- # we don't use the per-form csrf token -%>
+<%# UMD Customization %>
+<% if ExportJob.exportable? @document %>
+<%# End UMD Customization %>
+<%= form_tag(bookmark_path,
+             authenticity_token: false,
+             method:  bookmarked? ? :delete : :put,
+             class: "bookmark-toggle",
+             data: {
+               present: t('blacklight.search.bookmarks.present'),
+               absent: t('blacklight.search.bookmarks.absent'),
+               inprogress: t('blacklight.search.bookmarks.inprogress')
+            }) do %>
+  <%# UMD Customization %>
+  <div class="checkbox toggle-bookmark">
+    <label class="toggle-bookmark" data-checkboxsubmit-target="label">
+      <input type="checkbox" class="toggle-bookmark" data-checkboxsubmit-target="checkbox" <%= 'checked="checked"' if bookmarked? %>>
+      <%# UMD Customization %>
+      <span style="display: none" data-checkboxsubmit-target="span"><%= bookmarked? ? t('blacklight.search.bookmarks.present') : t('blacklight.search.bookmarks.absent') %></span>
+      <%# End UMD Customization %>
+    </label>
+  </div>
+  <%# End UMD Customization %>
+
+  <%= submit_tag(t(bookmarked? ? 'remove.button' : 'add.button', scope: 'blacklight.bookmarks'),
+                 class: "bookmark-#{bookmarked? ? 'remove' : 'add'} btn btn-outline-secondary") %>
+<% end %>
+<%# UMD Customization %>
+<% end %>
+<%# End UMD Customization %>
